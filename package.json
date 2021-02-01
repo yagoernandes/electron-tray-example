@@ -1,0 +1,14 @@
+{
+  "name": "electron-tray",
+  "version": "0.1.0",
+  "author": "YagoErnandes",
+  "description": "Electron Tray Icon test",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^11.2.1"
+  }
+}
