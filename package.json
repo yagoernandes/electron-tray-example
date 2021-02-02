@@ -5,10 +5,45 @@
   "description": "Electron Tray Icon test",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "nodemon --exec electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:all": "npm-run-all -p dist:*",
+    "dist:mac": "electron-builder --mac",
+    "dist:windows": "electron-builder --windows",
+    "dist:linux": "electron-builder --linux",
+    "postinstall": "electron-builder install-app-deps"
   },
   "license": "MIT",
   "devDependencies": {
-    "electron": "^11.2.1"
+    "electron": "^11.2.1",
+    "electron-builder": "^21.0.15",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.0",
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "@sentry/electron": "^2.2.0",
+    "electron-store": "^7.0.1",
+    "fix-path": "^3.0.0",
+    "npm-run-all": "^4.1.5"
+  },
+  "build": {
+    "appId": "com.yagoernandes.electrontray",
+    "productName": "Denox Tray",
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+      "category": "Utility",
+      "icon": "icon.png",
+      "target": [
+        "deb",
+        "snap",
+        "rpm"
+      ]
+    }
   }
 }
