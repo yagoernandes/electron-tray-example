@@ -49,14 +49,29 @@ const formatWorkspace = (filename) => ({
 const baterPonto = () => {
   const horario = new Date();
   const isEntrada = !(pontos.length % 2 == 1);
+  const dataFormatada = formataData(horario);
   pontos.push({
     isEntrada,
     horario,
     tipoFormatado: isEntrada ? "Entrada" : "Saída",
-    horarioFormatado: horario.toString().slice(16, 21),
-    click: () => console.log({ horario, isEntrada }),
+    horarioFormatado: dataFormatada.hora,
+    diaFormatado: dataFormatada.formatado,
+    diaNumeros: dataFormatada.somenteNumeros,
+    click: () => console.log({ horario, isEntrada, dataFormatada }),
   });
   render();
+};
+
+const formataData = (data) => {
+  const d = new Date(data);
+  const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
+  const mo = new Intl.DateTimeFormat("en", { month: "2-digit" }).format(d);
+  const da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
+  return {
+    somenteNumeros: `${da}${mo}${ye}`,
+    formatado: `${da}/${mo}/${ye}`,
+    hora: d.toString().slice(16, 21),
+  };
 };
 
 const enviarAviso = (title, message) =>
@@ -113,12 +128,6 @@ const sincronizarPontos = async () => {
   const botaoSalvar =
     "#myContent > div > div > div > div.row > div > div > div.widget-content.center-setting-device > button";
 
-  const d = new Date();
-  const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
-  const mo = new Intl.DateTimeFormat("en", { month: "2-digit" }).format(d);
-  const da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
-  console.log(`${da}${mo}${ye}`);
-
   await page.waitForSelector(checkboxSituacao);
   await page.select(checkboxSituacao, !(pontos.length % 2 == 1) ? "3" : "7");
 
@@ -140,22 +149,6 @@ const sincronizarPontos = async () => {
   await page.focus(dataInput);
   await time("1");
   await page.type(dataInput, "02022021");
-  // await page.keyboard.press("0");
-  // // await time("1");
-  // await page.keyboard.press("2");
-  // // await time("2");
-  // await page.keyboard.press("0");
-  // // await time("3");
-  // await page.keyboard.press("2");
-  // // await time("4");
-  // await page.keyboard.press("2");
-  // // await time("5");
-  // await page.keyboard.press("0");
-  // // await time("6");
-  // await page.keyboard.press("2");
-  // // await time("7");
-  // await page.keyboard.press("1");
-  // // await time("8");
 
   await page.keyboard.press("Tab");
 
@@ -175,7 +168,7 @@ const mountMenu = (tray, workspaces) => {
   }));
   const pontosSubmenu = [
     ...pontos.map((ponto) => ({
-      label: `* ${ponto.horarioFormatado} - ${ponto.tipoFormatado}`,
+      label: `${ponto.diaFormatado} - ${ponto.horarioFormatado} (${ponto.tipoFormatado})`,
       click: () => console.log({ ponto }),
     })),
     { type: "separator" },
@@ -186,6 +179,20 @@ const mountMenu = (tray, workspaces) => {
     {
       label: "Bater ponto agora",
       click: baterPonto,
+    },
+    {
+      label: "Bater ponto",
+      // click: baterPonto,
+      submenu: [
+        {
+          label: "Bater ponto de entrada",
+          click: () => console.log("entrada"),
+        },
+        {
+          label: "Bater ponto de saída",
+          click: () => console.log("saida"),
+        },
+      ],
     },
   ];
 
