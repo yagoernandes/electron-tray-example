@@ -1,0 +1,11 @@
+node_modules
+.dockerignore
+.editorconfig
+.eslintignore
+.eslintrc.json
+.gitignore
+.prettierrc
+docker-compose.yml
+Dockerfile
+Dockerfile.development
+README.md

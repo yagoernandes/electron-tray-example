@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "YagoErnandes",
   "description": "Electron Tray Icon test",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "start": "electron .",
     "dev": "nodemon --exec electron .",
@@ -19,10 +19,12 @@
   "devDependencies": {
     "electron": "^11.2.1",
     "electron-builder": "^21.0.15",
-    "eslint": "^5.16.0",
+    "eslint": "^7.20.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.0",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "prettier": "^2.2.1",
+    "prettier-eslint": "^12.0.0"
   },
   "dependencies": {
     "@sentry/electron": "^2.2.0",
